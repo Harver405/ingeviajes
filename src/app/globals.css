@@ -1,26 +1,86 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   INGEVIAJES — Tokens de diseño (único lugar para cambiar colores)
+   ============================================================ */
+@theme {
+  /* Paleta corporativa */
+  --color-lima: #8cc63f;        /* Verde lima corporativo: botones, detalles, bordes */
+  --color-lima-soft: #eef7e2;   /* Fondo suave para separar secciones */
+  --color-lima-ink: #4a7419;    /* Verde oscuro SOLO para texto pequeño verde sobre blanco (contraste AA) */
+  --color-carbon: #333333;      /* Gris carbón: textos y encabezados */
+  --color-ink: #000000;         /* Negro */
+  --color-paper: #ffffff;       /* Blanco */
+  --color-line: #e5e5e5;        /* Separadores y bordes neutros */
+  --color-muted: #5c5c5c;       /* Texto secundario */
+
+  /* Estados de formularios */
+  --color-error: #b42318;
+
+  /* Radios y sombras */
+  --radius-card: 1.25rem;
+  --radius-photo: 1.5rem;
+  --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.06);
+
+  /* Animación */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Fuentes cargadas con next/font en layout.tsx */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-montserrat);
+  --font-sans: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem; /* compensa el encabezado fijo */
+  }
+
+  body {
+    @apply bg-paper font-sans text-base leading-relaxed text-carbon antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display font-bold text-ink;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    @apply bg-lima text-ink;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-carbon;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ============================================================
+   Utilidades de marca
+   ============================================================ */
+@utility container-site {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+/* Marco de fotografía estilo brochure (usar de forma selectiva) */
+@utility photo-frame {
+  @apply overflow-hidden rounded-[var(--radius-photo)] border-4 border-lima;
+}
+
+/* Respeta la preferencia de reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
